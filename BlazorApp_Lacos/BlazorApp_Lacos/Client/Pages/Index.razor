@@ -1,0 +1,94 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+@*<h1>Pizza</h1>
+<div>
+    <h2>Pizza: @Pizza.Nome</h2>
+    <h2>Data: @Pizza.DataCadastro.ToString("dd MM yyyy") </h2>
+</div>*@
+<hr />
+<h1>Pizzas(foreach)</h1>
+@foreach (var produto in produtos)
+{
+    @if (produto.Nome.Contains("Calabresa"))
+    {
+        <h3> <b> Pizza de calabresa com desconto de 20% </b></h3>
+    }
+    <div>
+        <h2>Pizza: @produto.Nome</h2>
+        <h2>Data: @produto.DataCadastro.ToString("dd MM yyyy")</h2>
+    </div>
+}
+<h1> Pizzas(for)</h1>
+
+@for (var i = 0; i < produtos.Count; i++)
+{
+    @if (i == produtos.Count - 1)
+    {
+        <h3> Este é o último produto!</h3>
+    }
+    <h2>@(i + 1) - Pizza: @produtos[i].Nome</h2>
+    <h2>Data: @produtos[i].DataCadastro.ToString("dd MM yyyy")</h2>
+}
+
+
+@switch (dia)
+{
+    case "Monday":
+        mensagem = "Este é o primeiro dia da semana";
+        break;
+    case "Thursday":
+        mensagem = "Falta um dia para sexta.";
+        break;
+    case "Friday":
+        mensagem = "Friday, friday, it's friday!";
+        break;
+    case "default":
+        mensagem = "Hoje é " + dia;
+        break;
+
+}
+<p> <h1>@mensagem</h1> </p>
+
+
+@code {
+    string dia = DateTime.Now.DayOfWeek.ToString();
+    string mensagem = "";
+
+    public Produto Pizza { get { return GetProduto(); } }
+
+    public List<Produto> produtos { get { return GetProdutos(); } }
+
+    private List<Produto> GetProdutos()
+    {
+        return new List<Produto>()
+        {
+             new Produto()
+             {
+                  Nome = "Pizza Mussarela",
+                  DataCadastro = new DateTime(2019, 9, 6)
+             },
+             new Produto()
+             {
+                 Nome = "Pizza Calabresa",
+                 DataCadastro = new DateTime(2019,8,6)
+             },
+              new Produto()
+             {
+                 Nome = "Pizza Portuguesa",
+                 DataCadastro = new DateTime(2019,9,1)
+             }
+
+        };
+    }
+
+    private Produto GetProduto()
+    {
+        return new Produto()
+            {
+                Nome = "Pizza Mussarela",
+                DataCadastro = new DateTime(2019, 9, 6)
+            };
+    }
+}
